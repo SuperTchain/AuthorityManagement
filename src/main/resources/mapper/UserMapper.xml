@@ -20,8 +20,13 @@
         id, userName, nickName, account, password, gender, age, email, roleId
     </sql>
 
-    <!--查询所有用户信息-->
-    <select id="findAllUser" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"></include> from user
+    <!--分页查询所有用户信息-->
+    <select id="findAllUserByPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from user limit #{start},#{limit}
     </select>
+
+    <!--查询用户总数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from user;
+  </select>
 </mapper>

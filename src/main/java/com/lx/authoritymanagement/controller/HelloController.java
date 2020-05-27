@@ -1,13 +1,8 @@
 package com.lx.authoritymanagement.controller;
 
-import com.lx.authoritymanagement.pojo.User;
-import com.lx.authoritymanagement.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 /**
  * @ClassName HelloController
@@ -25,7 +20,7 @@ public class HelloController {
      */
     @RequestMapping(value = "/sayHello")
     public String sayHello(){
-        return "success";
+        return "main";
     }
 
 
