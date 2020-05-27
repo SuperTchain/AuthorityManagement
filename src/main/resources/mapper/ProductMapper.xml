@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lx.product.mapper.ProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lx.authoritymanagement.pojo.Product">
+        <id column="id" property="id" />
+        <result column="productName" property="productName" />
+        <result column="productPrice" property="productPrice" />
+        <result column="productionAddress" property="productionAddress" />
+        <result column="productDate" property="productDate" />
+        <result column="productNumber" property="productNumber" />
+        <result column="productDesc" property="productDesc" />
+        <result column="productStaus" property="productStaus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, productName, productPrice, productionAddress, productDate, productNumber, productDesc, productStaus
+    </sql>
+
+</mapper>

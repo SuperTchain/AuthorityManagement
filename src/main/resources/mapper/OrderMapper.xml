@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lx.order.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lx.authoritymanagement.pojo.Order">
+        <id column="id" property="id" />
+        <result column="orderTime" property="orderTime" />
+        <result column="orderDesc" property="orderDesc" />
+        <result column="orderNumber" property="orderNumber" />
+        <result column="orderStatus" property="orderStatus" />
+        <result column="productId" property="productId" />
+        <result column="userId" property="userId" />
+        <result column="payType" property="payType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, orderTime, orderDesc, orderNumber, orderStatus, productId, userId, payType
+    </sql>
+
+</mapper>
