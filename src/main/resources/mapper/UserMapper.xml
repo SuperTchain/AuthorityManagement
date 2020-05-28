@@ -29,4 +29,51 @@
     <select id="selectCount" resultType="java.lang.Integer">
     select count(*) from user;
   </select>
+
+    <!--根据搜索条件查询用户-->
+    <select id="search" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"></include>
+        from user
+        <where>
+            <if test="userid!=null">
+                and id like '%${userid}%'
+            </if>
+            <if test="username!=''">
+                and userName like '%${username}%'
+            </if>
+            <if test="account!=''">
+                and account like '%${account}%'
+            </if>
+        </where>
+        limit #{start},#{limit}
+
+    </select>
+    <!--根据搜索条件查询用户数量-->
+    <select id="searchCountLike"  resultType="java.lang.Integer">
+        select count(*)  from user
+        <where>
+            <if test="userid!=null">
+                and id like '%${userid}%'
+            </if>
+            <if test="username!=''">
+                and userName like '%${username}%'
+            </if>
+            <if test="account!=''">
+                and account like '%${account}%'
+            </if>
+        </where>
+    </select>
+    <!--添加用户-->
+    <insert id="addUser" parameterType="com.lx.authoritymanagement.pojo.User">
+        insert into user(userName, nickName, account, password, gender, age, email, roleId)
+         values(#{userName},#{nickName},#{account},#{password},#{gender},#{age},#{email},#{roleId})
+    </insert>
+
+    <!--根据用户id进行批量删除-->
+    <delete id="batchDeleteByUserId">
+        delete from user where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
