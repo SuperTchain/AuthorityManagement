@@ -1,6 +1,5 @@
-layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function () {
-    var laydate = layui.laydate //日期
-        , laypage = layui.laypage //分页
+layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
+    var laypage = layui.laypage //分页
         , layer = layui.layer //弹层
         , table = layui.table //表格
         , $ = layui.$//jquery模块
@@ -100,29 +99,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                         })
                     });
 
-
-                    // //将选中的id数组传递到后台，删除
-                    // $.ajax({
-                    //     url:"/user/batchDelete",//后台删除的接口
-                    //     type:"post",
-                    //     data:{
-                    //         //id数组
-                    //         "ids":ids
-                    //     },
-                    //     //直接传输数组，需要将traditional设置为true
-                    //     traditional:true,
-                    //     //后台成功之后的回调函数
-                    //     success:function(res){
-                    //         if(res.status==200){
-                    //             //index：layui便于记录弹框的索引
-                    //             layer.alert(res.item,function(index){
-                    //                 layer.close(index);//关闭弹框
-                    //                 //重载表格
-                    //                 user_table.reload();
-                    //             })
-                    //         }
-                    //     }
-                    // })
                 }
                 break;
         }
@@ -133,26 +109,57 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     table.on('tool(userTable)', function (obj) { //注：tool 是工具条事件名，test是table lay-filter="对应的值"
         var data = obj.data //获得当前行数据
             , layEvent = obj.event; //获得 lay-event 对应的值
+        var id = data.id;
         if (layEvent === 'detail') {
-            layer.msg('查看操作');
+            userid = {
+                userid:data.id,
+            };
+            layer.open({
+                //0（信息框，默认）1（页面层）2（iframe层)
+                type: 2,
+                content: "/user/toViewUser",
+                title: "查看界面",
+                area: ["60%", "60%"],//控制宽高
+                shadeClose: true,//点击外部窗口关闭
+                shade: 0.8,//弹层外区域透明度取值
+            });
+
         } else if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
+            layer.confirm("确认要删除吗，删除后不能恢复", {btn: ['确定', '取消'], title: "提示"}, function (index) {
                 obj.del(); //前端表格的效果：将当前行删除，实际上重新刷新还是存在的
                 layer.close(index);//关闭窗口
                 //向服务端发送删除指令
                 $.ajax({
-                    url: "",//后台删除的接口
+                    url: "/user/deleteById",//后台删除的接口
                     type: "post",
                     data: {
                         id: data.id//要删除行的id
                     },
-                    success: function () {
-
+                    success: function (res) {
+                        if (res.status == 200) {
+                            //index：layui便于记录弹框的索引
+                            layer.alert(res.item, function (index) {
+                                layer.close(index);//关闭弹框
+                                //重载表格
+                                user_table.reload();
+                            })
+                        }
                     }
                 })
             });
         } else if (layEvent === 'edit') {
-            layer.msg('编辑操作');
+            userid = {
+                userid:data.id,
+            };
+            layer.open({
+                //0（信息框，默认）1（页面层）2（iframe层)
+                type: 2,
+                content: "/user/toEditUser",
+                title:"编辑界面",
+                area: ["60%", "60%"],//控制宽高
+                shadeClose: true,//点击外部窗口关闭
+                shade: 0.8//弹层外区域透明度取值
+            })
         }
 
     });
@@ -174,5 +181,14 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             url: "/user/search"
         });
     })
-
+    //监听submit提交
+    //submit(submit_video):他是submit按钮的lay-filter取值
+    form.on('submit(submit_user)', function (data) {
+        console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+        console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+        console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+        //         //刷新父窗口
+        window.parent.location.reload();
+    });
 })
+

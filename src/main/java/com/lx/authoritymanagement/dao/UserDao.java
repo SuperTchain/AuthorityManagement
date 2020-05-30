@@ -29,7 +29,7 @@ public interface UserDao {
      * @param account 用户账号
      * @param start 开始页数
      * @param limit 每页页数
-     * @return
+     * @return 结果
      */
     List<User> search(@Param("userid") Integer userid,@Param("username") String username, @Param("account")String account, @Param("start") Integer start, @Param("limit") Integer limit);
 
@@ -38,21 +38,38 @@ public interface UserDao {
      * @param userid 用户id
      * @param username 用户姓名
      * @param account 用户账号
-     * @return
+     * @return 查询结果
      */
     Integer searchCountLike(@Param("userid") Integer userid,@Param("username") String username,@Param("account")String account);
 
     /**
      * 添加用户
      * @param user 用户信息
-     * @return
+     * @return 结果
      */
     Integer addUser(User user);
 
     /**
      * 根据用户id批量删除用户
      * @param ids 用户id数组
-     * @return
+     * @return 结果
      */
     Integer batchDeleteByUserId(@Param("ids") String[] ids);
+
+
+    /**
+     * 根据用户id删除用户
+     * @param id 用户Id
+     * @return 结果
+     */
+    Integer deleteById(Integer id);
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id 用户Id
+     * @return 结果
+     */
+    User findUserById(Integer id);
+
+    Integer updateUser(User user);
 }

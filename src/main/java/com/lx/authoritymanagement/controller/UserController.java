@@ -32,7 +32,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+    /**
+     * 查询所有用户
+     *
+     * @param page  页数
+     * @param limit 每页页数
+     * @return 封装的结果集
+     */
     @GetMapping("/findAllUser")
     @ResponseBody
     public Result findAllUser(Integer page, Integer limit) {
@@ -53,11 +59,32 @@ public class UserController {
 
     /**
      * 跳转到添加用户界面
+     *
      * @return 添加界面
      */
     @GetMapping("/toAddUser")
     public String toaddUser() {
         return "user/addUser";
+    }
+
+    /**
+     * 跳转到查看用户界面
+     *
+     * @return 查看界面
+     */
+    @GetMapping("/toViewUser")
+    public String toCheckUser() {
+        return "user/viewUser";
+    }
+
+    /**
+     * 跳转都用户编辑界面
+     *
+     * @return 编辑界面
+     */
+    @GetMapping("/toEditUser")
+    public String toEditUser() {
+        return "user/editUser";
     }
 
 
@@ -82,22 +109,73 @@ public class UserController {
 
     /**
      * 添加用户
-     * @param user
+     *
+     * @param user 用户信息
      * @return 添加结果
      */
     @PostMapping("/addUser")
     @ResponseBody
     public Result addUser(User user) {
-        Result result =  userService.addUser(user);
+        Result result = userService.addUser(user);
         logger.info("成功添加用户");
+        result.setStatus(200);
         return result;
     }
 
+    /**
+     * 批量删除
+     *
+     * @param ids 删除id数组
+     * @return 封装结果集
+     */
     @PostMapping("/batchDelete")
     @ResponseBody
-    public Result batchDeleteByUserId(String[] ids){
-        Result result =  userService.batchDeleteByUserId(ids);
+    public Result batchDeleteByUserId(String[] ids) {
+        Result result = userService.batchDeleteByUserId(ids);
         logger.info("成功删除用户");
+        result.setStatus(200);
+        result.setItem("批量删除成功");
+        return result;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param id 用户id
+     * @return 封装结果集
+     */
+    @PostMapping("/deleteById")
+    @ResponseBody
+    public Result deleteById(Integer id) {
+        Result result = userService.deleteById(id);
+        logger.info("成功删除用户");
+        return result;
+    }
+
+    /**
+     * 根据Id查询用户信息
+     *
+     * @param id id
+     * @return 结果
+     */
+    @PostMapping("/findUserById")
+    @ResponseBody
+    public Result findUserById(Integer id) {
+        Result result = userService.findUserById(id);
+        logger.info("根据id查询成功");
+        return result;
+    }
+
+    /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @return 封装结果
+     */
+    @PostMapping("/updateUser")
+    @ResponseBody
+    public Result updateUser(User user){
+        Result result = userService.updateUser(user);
+        logger.info("更新用户成功"+result);
         return result;
     }
 }

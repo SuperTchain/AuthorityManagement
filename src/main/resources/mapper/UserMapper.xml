@@ -76,4 +76,17 @@
             #{id}
         </foreach>
     </delete>
+    <!--根据用户id进行删除-->
+    <delete id="deleteById">
+        delete from user where id=#{id}
+    </delete>
+    <!--根据用户Id查询该用户信息-->
+    <select id="findUserById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from user where id=#{id}
+    </select>
+    <!--更新用户信息-->
+    <update id="updateUser" parameterType="com.lx.authoritymanagement.pojo.User">
+        update user set userName=#{userName},nickName=#{nickName},account=#{account},password=#{password},gender=#{gender},
+        age=#{age},email=#{email},roleId=#{roleId} where id=#{id}
+    </update>
 </mapper>

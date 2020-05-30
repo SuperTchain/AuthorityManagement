@@ -134,4 +134,53 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    /**
+     * 删除用户
+     * @param id 用户id
+     * @return 结果
+     */
+    @Override
+    public Result deleteById(Integer id) {
+        Result result = new Result();
+        try{
+            userDao.deleteById(id);
+            result.setStatus(200);
+            result.setItem("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            result.setStatus(500);
+            result.setItem("删除失败");
+        }
+        return result;
+    }
+
+    /**
+     * 根湖用户Id查询用户信息
+     * @param id 用户Id
+     * @return 封装结果
+     */
+    @Override
+    public Result findUserById(Integer id) {
+        Result result = new Result();
+        User user = userDao.findUserById(id);
+        result.setStatus(200);
+        result.setItem(user);
+        return result;
+    }
+
+    /**
+     * 更新用户信息
+     * @param user 用户信息
+     * @return 封装结果
+     */
+    @Override
+    public Result updateUser(User user) {
+        userDao.updateUser(user);
+        Result result = new Result();
+        result.setStatus(200);
+        result.setItem("更新成功");
+        return result;
+    }
 }
