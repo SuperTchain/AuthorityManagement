@@ -3,6 +3,7 @@ package com.lx.authoritymanagement.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -84,9 +85,14 @@ public class SwaggerConfig {
      * @return 配置信息
      */
     private ApiInfo apiInfo() {
-        //作者信息
-        Contact contact = new Contact("lx", "127.0.0.1:8080", "2401700911@qq.com");
+//        //作者信息
+//        Contact contact = new Contact("lx", "127.0.0.1:8080", "2401700911@qq.com");
         //配置信息
-        return new ApiInfo("lx的Swagger测试", "后台的接口信息", "v1.0", "www.baidu.com", contact, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0", new ArrayList());
+        return new ApiInfoBuilder()
+                .title("接口总览")
+                .description("测试")
+                .version("1.0")
+                .build();
+
     }
 }

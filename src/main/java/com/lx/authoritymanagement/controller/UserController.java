@@ -1,8 +1,10 @@
 package com.lx.authoritymanagement.controller;
 
+import com.lx.authoritymanagement.annotations.RecordOperation;
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
+import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user")
+@Api(tags = "用户模块")
 public class UserController {
     /**
      * 开启日志
@@ -41,9 +44,15 @@ public class UserController {
      */
     @GetMapping("/findAllUser")
     @ResponseBody
-    public Result findAllUser(Integer page, Integer limit) {
+    @ApiOperation(value = "查询所有用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数"),
+            @ApiImplicitParam(name = "limit",value = "每页页数")
+    })
+    @RecordOperation(name = "查询所有用户")
+    public Result findAllUser( Integer page,  Integer limit) {
         Result result = userService.findAllUserByPage(page, limit);
-        logger.info("查询成功");
+        logger.info("查询用户列表成功");
         return result;
     }
 
@@ -53,6 +62,7 @@ public class UserController {
      * @return 用户列表界面
      */
     @GetMapping("/toUserList")
+    @ApiOperation(value = "跳转到用户界面")
     public String tuUserList() {
         return "user/userList";
     }
@@ -63,6 +73,7 @@ public class UserController {
      * @return 添加界面
      */
     @GetMapping("/toAddUser")
+    @ApiOperation(value = "跳转到添加界面")
     public String toaddUser() {
         return "user/addUser";
     }
@@ -73,6 +84,7 @@ public class UserController {
      * @return 查看界面
      */
     @GetMapping("/toViewUser")
+    @ApiOperation(value = "跳转到查看界面")
     public String toCheckUser() {
         return "user/viewUser";
     }
@@ -83,6 +95,7 @@ public class UserController {
      * @return 编辑界面
      */
     @GetMapping("/toEditUser")
+    @ApiOperation(value = "跳转到编辑界面")
     public String toEditUser() {
         return "user/editUser";
     }
@@ -100,9 +113,18 @@ public class UserController {
      */
     @GetMapping("/search")
     @ResponseBody
+    @ApiOperation(value = "根据条件搜索")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userid", value = "用户Id", dataType = "Integer"),
+            @ApiImplicitParam(name = "username", value = "用户姓名", dataType = "String"),
+            @ApiImplicitParam(name = "account", value = "用户账号", dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "页数", dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "每页页数", dataType = "Integer")}
+    )
+    @RecordOperation(name = "根据传入的条件进行用户搜索")
     public Result serachUser(Integer userid, String username, String account, Integer page, Integer limit) {
         Result result = userService.search(userid, username, account, page, limit);
-        logger.info("条件搜索查询成功");
+        logger.info("用户条件搜索查询成功");
         return result;
     }
 
@@ -115,7 +137,9 @@ public class UserController {
      */
     @PostMapping("/addUser")
     @ResponseBody
-    public Result addUser(User user) {
+    @ApiOperation(value = "添加用户")
+    @RecordOperation(name = "添加用户")
+    public Result addUser(@ApiParam(name = "ueer", value = "用户实体类") User user) {
         Result result = userService.addUser(user);
         logger.info("成功添加用户");
         result.setStatus(200);
@@ -130,9 +154,11 @@ public class UserController {
      */
     @PostMapping("/batchDelete")
     @ResponseBody
-    public Result batchDeleteByUserId(String[] ids) {
+    @ApiOperation(value = "批量删除用户")
+    @RecordOperation(name = "批量删除用户")
+    public Result batchDeleteByUserId(@ApiParam(name = "ids", value = "用户名数组") String[] ids) {
         Result result = userService.batchDeleteByUserId(ids);
-        logger.info("成功删除用户");
+        logger.info("成功批量删除用户");
         result.setStatus(200);
         result.setItem("批量删除成功");
         return result;
@@ -146,7 +172,9 @@ public class UserController {
      */
     @PostMapping("/deleteById")
     @ResponseBody
-    public Result deleteById(Integer id) {
+    @ApiOperation(value = "删除用户")
+    @RecordOperation(name="删除用户")
+    public Result deleteById(@ApiParam(name = "id", value = "用户Id") Integer id) {
         Result result = userService.deleteById(id);
         logger.info("成功删除用户");
         return result;
@@ -160,22 +188,27 @@ public class UserController {
      */
     @PostMapping("/findUserById")
     @ResponseBody
-    public Result findUserById(Integer id) {
+    @ApiOperation(value = "根据Id查询用户")
+    @RecordOperation(name = "根据Id查询用户信息")
+    public Result findUserById(@ApiParam(name = "id", value = "用户Id") Integer id) {
         Result result = userService.findUserById(id);
-        logger.info("根据id查询成功");
+        logger.info("根据用户ID查询成功");
         return result;
     }
 
     /**
      * 更新用户信息
+     *
      * @param user 用户信息
      * @return 封装结果
      */
     @PostMapping("/updateUser")
     @ResponseBody
-    public Result updateUser(User user){
+    @ApiOperation(value = "更新用户信息")
+    @RecordOperation(name = "更新用户信息")
+    public Result updateUser(@ApiParam(name = "user", value = "用户实体类") User user) {
         Result result = userService.updateUser(user);
-        logger.info("更新用户成功"+result);
+        logger.info("更新用户成功" + result);
         return result;
     }
 }

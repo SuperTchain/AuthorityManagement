@@ -1,5 +1,8 @@
 package com.lx.authoritymanagement.utils;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author lx
  * 基于layui的需求，所定义的返回数据的格式
@@ -8,22 +11,27 @@ package com.lx.authoritymanagement.utils;
  * "count": res.total, //解析数据长度
  * "data": res.data.item //解析数据列表
  */
+@ApiModel(value = "封装的返回结果类")
 public class Result {
     /**
      * 接口状态(表格的异步数据加载要求code为0，code对应的就是status)
      */
+    @ApiModelProperty(value ="接口状态",example = "200")
     private Integer status = 0;
     /**
      * 文本信息(默认成功)
      */
+    @ApiModelProperty(value = "文本信息",example = "success")
     private String message = "success";
     /**
      * 数据的长度total
      */
+    @ApiModelProperty(value = "数据长度",example = "20")
     private Integer total;
     /**
      * 返回给前端的数据(可能是单一对象、集合、字符串)
      */
+    @ApiModelProperty(value = "返回数据",example = "item")
     private Object item;
 
     public Integer getStatus() {

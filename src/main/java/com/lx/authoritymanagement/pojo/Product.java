@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,37 +25,37 @@ public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "产品id")
+    @ApiModelProperty(value = "产品id",example = "1")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "产品名称")
+    @ApiModelProperty(value = "产品名称",example = "华为荣耀")
     @TableField("productName")
     private String productName;
 
-    @ApiModelProperty(value = "产品价格")
+    @ApiModelProperty(value = "产品价格",example = "2000")
     @TableField("productPrice")
     private BigDecimal productPrice;
 
-    @ApiModelProperty(value = "产品生产地址")
+    @ApiModelProperty(value = "产品生产地址",example = "成都")
     @TableField("productionAddress")
     private String productionAddress;
 
-    @ApiModelProperty(value = "产品生产日期")
+    @ApiModelProperty(value = "产品生产日期",example = "2020-05-31")
     @TableField("productDate")
     private Date productDate;
 
-    @ApiModelProperty(value = "产品数量")
+    @ApiModelProperty(value = "产品数量",example = "20")
     @TableField("productNumber")
     private Integer productNumber;
 
-    @ApiModelProperty(value = "产品描述")
+    @ApiModelProperty(value = "产品描述",example = "真棒啊")
     @TableField("productDesc")
     private String productDesc;
 
-    @ApiModelProperty(value = "产品状态")
-    @TableField("productStaus")
-    private Integer productStaus;
+    @ApiModelProperty(value = "产品状态",example = "1")
+    @TableField("productStatus")
+    private Integer productStatus;
 
 
     @Override
@@ -67,7 +68,7 @@ public class Product implements Serializable {
                 ", productDate=" + productDate +
                 ", productNumber=" + productNumber +
                 ", productDesc='" + productDesc + '\'' +
-                ", productStaus=" + productStaus +
+                ", productStatus=" + productStatus +
                 '}';
     }
 
@@ -131,11 +132,11 @@ public class Product implements Serializable {
         this.productDesc = productDesc;
     }
 
-    public Integer getProductStaus() {
-        return productStaus;
+    public Integer getProductStatus() {
+        return productStatus;
     }
 
-    public void setProductStaus(Integer productStaus) {
-        this.productStaus = productStaus;
+    public void setProductStatus(Integer productStatus) {
+        this.productStatus = productStatus;
     }
 }

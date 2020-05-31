@@ -23,39 +23,39 @@ public class User implements Serializable {
 
    private static final long serialVersionUID = 1L;
 
-   @ApiModelProperty(value = "用户编号，主键")
+   @ApiModelProperty(value = "用户编号，主键",example = "100000")
    @TableId(value = "id", type = IdType.AUTO)
    private Integer id;
 
-   @ApiModelProperty(value = "用户真实姓名")
+   @ApiModelProperty(value = "用户真实姓名",example = "李兴")
    @TableField("userName")
    private String userName;
 
-   @ApiModelProperty(value = "用户昵称")
+   @ApiModelProperty(value = "用户昵称",example = "SuperTchain")
    @TableField("nickName")
    private String nickName;
 
-   @ApiModelProperty(value = "用户账号")
+   @ApiModelProperty(value = "用户账号",example = "admin")
    @TableField("account")
    private String account;
 
-   @ApiModelProperty(value = "用户密码")
+   @ApiModelProperty(value = "用户密码",example = "123456")
    @TableField("password")
    private String password;
 
-   @ApiModelProperty(value = "用户性别")
+   @ApiModelProperty(value = "用户性别",example = "1")
    @TableField("gender")
    private Integer gender;
 
-   @ApiModelProperty(value = "用户年龄")
+   @ApiModelProperty(value = "用户年龄",example = "21")
    @TableField("age")
    private Integer age;
 
-   @ApiModelProperty(value = "用户邮箱地址")
+   @ApiModelProperty(value = "用户邮箱地址",example = "SuperTchain@163.com")
    @TableField("email")
    private String email;
 
-   @ApiModelProperty(value = "角色id")
+   @ApiModelProperty(value = "角色id",example = "1")
    @TableField("roleId")
    private Integer roleId;
 

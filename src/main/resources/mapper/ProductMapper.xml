@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lx.product.mapper.ProductMapper">
+<mapper namespace="com.lx.authoritymanagement.dao.ProductDao">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lx.authoritymanagement.pojo.Product">
@@ -11,12 +11,54 @@
         <result column="productDate" property="productDate" />
         <result column="productNumber" property="productNumber" />
         <result column="productDesc" property="productDesc" />
-        <result column="productStaus" property="productStaus" />
+        <result column="productStatus" property="productStatus" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, productName, productPrice, productionAddress, productDate, productNumber, productDesc, productStaus
+        id, productName, productPrice, productionAddress, productDate, productNumber, productDesc, productStatus
     </sql>
+    <!--分页查询所有产品信息-->
+    <select id="findAllProductByPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from product limit #{start},#{limit}
+    </select>
 
+    <!--查询产品总数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from product;
+  </select>
+<!--Integer productId, String productName, String startTime, String endTime, Integer start, Integer limit-->
+    <!--根据搜索条件查询用户-->
+    <select id="search" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"></include>
+        from product
+        <where>
+            <if test="productId!=null">
+                and id like '%${productId}%'
+            </if>
+            <if test="productName!=''">
+                and productName like '%${productName}%'
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and productDate between #{startTime} and #{endTime}
+            </if>
+        </where>
+        limit #{start},#{limit}
+
+    </select>
+    <!--根据搜索条件查询用户数量-->
+    <select id="searchCountLike"  resultType="java.lang.Integer">
+        select count(*)  from product
+        <where>
+            <if test="productId!=null">
+                and id like '%${productId}%'
+            </if>
+            <if test="productName!=''">
+                and productName like '%${productName}%'
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and productDate between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
 </mapper>

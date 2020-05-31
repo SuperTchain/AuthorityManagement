@@ -31,8 +31,8 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
                     , "email": res.item.email
                     , "roleId": res.item.roleId
                 });
-                form.render('select'); //刷新select选择框渲染
             }
+            form.render()
         }
     })
 })
