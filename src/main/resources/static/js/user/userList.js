@@ -41,7 +41,7 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
             , {field: 'gender', width: 80, title: '性别', templet: '#tansforgender'}
             , {field: 'age', width: 80, title: '年龄', sort: true}
             , {field: 'email', title: '邮箱'}
-            , {field: 'roleId', width: 85, title: '角色', sort: true, templet: '#tarnsfor_roleid'}
+            , {field: 'roleId', width: 85, title: '角色', templet: '#tarnsfor_roleid'}
             , {fixed: 'right', width: 170, toolbar: '#barDemo'}
         ]]
     });

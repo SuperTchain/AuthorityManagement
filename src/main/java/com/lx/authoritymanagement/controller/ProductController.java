@@ -1,17 +1,16 @@
 package com.lx.authoritymanagement.controller;
 
 import com.lx.authoritymanagement.annotations.RecordOperation;
+import com.lx.authoritymanagement.pojo.Product;
 import com.lx.authoritymanagement.service.ProductService;
 import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -45,6 +44,17 @@ public class ProductController {
     @ApiOperation(value = "跳转到产品列表界面")
     public String toProductList() {
         return "product/productList";
+    }
+
+    /**
+     * 跳转到列表界面
+     *
+     * @return 列表界面
+     */
+    @GetMapping("/toAddProduct")
+    @ApiOperation(value = "跳转到添加产品界面")
+    public String toAddProduct() {
+        return "product/addProduct";
     }
 
     /**
@@ -90,9 +100,25 @@ public class ProductController {
     )
     @RecordOperation(name = "根据传入条件查询产品信息")
     public Result serachUser(Integer productId, String productName, String timerange, Integer page, Integer limit) {
-        System.out.println(productId+productName+timerange);
         Result result = productService.search(productId, productName, timerange, page, limit);
         logger.info("产品条件搜索查询成功");
+        return result;
+    }
+
+
+    /**
+     * 添加产品
+     * @param product 产品实体类
+     * @return 结果
+     */
+    @PostMapping("/addProduct")
+    @ResponseBody
+    @ApiOperation(value = "添加产品")
+    @RecordOperation(name = "添加产品")
+    public Result addProduct(@ApiParam(name = "product", value = "产品实体类") Product product) {
+        Result result = productService.addProduct(product);
+        logger.info("成功添加产品");
+        result.setStatus(200);
         return result;
     }
 }

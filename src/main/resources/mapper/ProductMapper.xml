@@ -61,4 +61,9 @@
             </if>
         </where>
     </select>
+    <!--添加产品-->
+    <insert id="addProduct" parameterType="com.lx.authoritymanagement.pojo.Product">
+        insert into product(productName, productPrice, productionAddress, productDate, productNumber, productDesc, productStatus)
+         values(#{productName},#{productPrice},#{productionAddress},#{productDate},#{productNumber},#{productDesc},#{productStatus})
+    </insert>
 </mapper>

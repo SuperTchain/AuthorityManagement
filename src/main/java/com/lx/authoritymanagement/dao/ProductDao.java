@@ -48,4 +48,11 @@ public interface ProductDao {
      * @return 数量
      */
     Integer searchCountLike(@Param("productId") Integer productId, @Param("productName") String productName, @Param("startTime") String startTime, @Param("endTime") String endTime);
+
+    /**
+     * 添加产品
+     * @param product 产品实体类
+     * @return 结果
+     */
+    Integer addProduct(Product product);
 }

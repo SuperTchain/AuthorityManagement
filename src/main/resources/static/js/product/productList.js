@@ -35,17 +35,17 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element', 'laydate'], function 
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', title: '产品ID', sort: true}
             , {field: 'productName', title: '产品名称'}
-            , {field: 'productPrice', title: '产品价格'}
-            , {field: 'productionAddress', title: '产品地址'}
+            , {field: 'productPrice', title: '产品价格',sort:true}
+            , {field: 'productionAddress', title: '生产地址'}
             , {
-                field: 'productDate', title: '生产日期'
+                field: 'productDate', title: '生产日期',sort:true
                 , templet: function (d) {
                     return showTime(d.productDate);
                 }
             }
             //unresize:true设置为true，代表不能拖动，默认是false，都能拖动
-            , {field: 'productNumber', width: 80, title: '产品数量'}
-            , {field: 'productDesc', width: 80, title: '产品描述'}
+            , {field: 'productNumber', title: '产品数量',sort:true}
+            , {field: 'productDesc', title: '产品描述'}
             , {field: 'productStatus', title: '产品状态', templet: '#transfor_productStatus'}
             , {fixed: 'right', width: 170, toolbar: '#barDemo'}
         ]]
@@ -69,7 +69,7 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element', 'laydate'], function 
                     //0（信息框，默认）1（页面层）2（iframe层)
                     type: 2,
                     content: "/product/toAddProduct",
-                    area: ["60%", "60%"],//控制宽高
+                    area: ["70%", "70%"],//控制宽高
                     shadeClose: true,//点击外部窗口关闭
                     shade: 0.8//弹层外区域透明度取值
                 })
@@ -173,7 +173,7 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element', 'laydate'], function 
     laydate.render({
         elem: '#timerange', //指定元素
         range: "~",//定义分割字符
-        type: "date" //date:日期   datetime:日期和时间
+        type: "datetime" //date:日期   datetime:日期和时间
     });
 
     //根据条件进行搜索

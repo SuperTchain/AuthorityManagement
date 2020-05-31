@@ -7,6 +7,7 @@ import com.lx.authoritymanagement.service.ProductService;
 import com.lx.authoritymanagement.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -78,6 +79,28 @@ public class ProductServiceImpl implements ProductService {
         //查询产品的总个数
         Integer count = productDao.searchCountLike(productId, productName, startTime,endTime);
         result.setTotal(count);
+        return result;
+    }
+
+    /**
+     * 添加产品
+     * @param product 产品实体类
+     * @return 结果
+     */
+    @Override
+    public Result addProduct(Product product) {
+        Result result = new Result();
+        try {
+            productDao.addProduct(product);
+            result.setStatus(200);
+            result.setItem("添加成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(500);
+            result.setItem("添加失败");
+            //手动回滚事务
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
         return result;
     }
 }

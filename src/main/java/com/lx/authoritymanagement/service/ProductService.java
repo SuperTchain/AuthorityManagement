@@ -1,5 +1,6 @@
 package com.lx.authoritymanagement.service;
 
+import com.lx.authoritymanagement.pojo.Product;
 import com.lx.authoritymanagement.utils.Result;
 
 public interface ProductService {
@@ -22,4 +23,11 @@ public interface ProductService {
      * @return 封装结果
      */
     Result search(Integer productId, String productName, String timerange, Integer page, Integer limit);
+
+    /**
+     * 添加产品
+     * @param product 产品实体类
+     * @return 结果
+     */
+    Result addProduct(Product product);
 }

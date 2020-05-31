@@ -13,26 +13,28 @@ layui.use(['form', 'layedit', 'laydate'], function () {
                 return '最小长度为5哦';
             }
         }
-        , pass: [
-            // /^[\S]{6,12}$/
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-            // ,'密码必须8到12位，且不能出现空格'
-            , '至少8个字符，至少1个大写字母，1个小写字母和1个数字'
+        , number: [
+            /^[1-9]\d*$/
+            , '请输入正整数'
         ]
-        , account: [
-            /^[a-zA-Z0-9_-]{4,16}$/
-            , '至少4位，至多16位,不包含特殊字符哦'
+        , name: [
+            /^[\u4e00-\u9fa50-9A-Za-z]*$/
+            , '不包含特殊字符哦'
         ]
-        , age: [
-            /^(?:[1-9]?\d|100)$/
-            , '只能在1-99岁之间哦'
+        , price: [
+            /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/
+            , '格式错误，正确格式形如x.x'
         ]
         , content: function (value) {
             layedit.sync(editIndex);
         }
     });
 
-
+    //日期时间选择器
+    laydate.render({
+        elem: '#productDate'
+        ,type: 'datetime'
+    });
 
     //监听submit提交
     //submit(submit_video):他是submit按钮的lay-filter取值
