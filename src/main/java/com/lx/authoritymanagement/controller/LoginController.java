@@ -1,6 +1,9 @@
 package com.lx.authoritymanagement.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -12,15 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Version 1.0
  */
 @Controller
-public class HelloController {
+@Api(tags = "登录接口")
+public class LoginController {
+
+    /**
+     * 登录跳转到主界面
+     * @return 跳转到主界面
+     */
+    @PostMapping(value = "/login")
+    public String toLogin(){
+        return "main";
+    }
 
     /**
      * 测试springboot整合thymeleaf
      * @return 返回到success界面
      */
-    @RequestMapping(value = "/sayHello")
-    public String sayHello(){
-        return "main";
+    @GetMapping(value = "/logout")
+    public String logout(){
+        return "login";
     }
 
 

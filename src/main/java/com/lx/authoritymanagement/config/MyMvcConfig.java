@@ -1,6 +1,7 @@
 package com.lx.authoritymanagement.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,7 +22,11 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
+        //设置ViewController的优先级,将此处的优先级设为最高,当存在相同映射时依然优先执行
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         registry.addViewController("/index.html").setViewName("login");
+        registry.addViewController("/login.html").setViewName("login");
+        registry.addViewController("/forget.html").setViewName("forget");
     }
     /**
      * 配置静态资源访问路径（swagger映射）
