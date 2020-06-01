@@ -103,4 +103,74 @@ public class ProductServiceImpl implements ProductService {
         }
         return result;
     }
+
+    /**
+     * 根据产品ID查询产品
+     * @param id 产品ID
+     * @return 结果
+     */
+    @Override
+    public Result findProductById(Integer id) {
+        Result result = new Result();
+        Product product = productDao.findProductById(id);
+        result.setStatus(200);
+        result.setItem(product);
+        return result;
+    }
+
+    /**
+     * 根据ID删除产品
+     * @param id 产品ID
+     * @return 封装结果
+     */
+    @Override
+    public Result deleteById(Integer id) {
+        Result result = new Result();
+        try{
+            productDao.deleteById(id);
+            result.setStatus(200);
+            result.setItem("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            result.setStatus(500);
+            result.setItem("删除失败");
+        }
+        return result;
+    }
+
+    /**
+     * 批量删除产品
+     * @param ids 产品ID数组
+     * @return 封装结果
+     */
+    @Override
+    public Result batchDeleteByProductId(String[] ids) {
+        Result result = new Result();
+        try{
+            productDao.batchDeleteByProductId(ids);
+            result.setStatus(200);
+            result.setItem("删除成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            result.setStatus(500);
+            result.setItem("删除失败");
+        }
+        return result;
+    }
+
+    /**
+     * 更新产品信息
+     * @param product 产品实体类
+     * @return 封装结果
+     */
+    @Override
+    public Result updateProduct(Product product) {
+        productDao.updateProduct(product);
+        Result result = new Result();
+        result.setStatus(200);
+        result.setItem("更新成功");
+        return result;
+    }
 }

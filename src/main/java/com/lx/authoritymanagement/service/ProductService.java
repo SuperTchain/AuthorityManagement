@@ -30,4 +30,32 @@ public interface ProductService {
      * @return 结果
      */
     Result addProduct(Product product);
+
+    /**
+     * 根据产品ID查询信息
+     * @param id 产品ID
+     * @return 结果
+     */
+    Result findProductById(Integer id);
+
+    /**
+     * 根据产品ID删除产品
+     * @param id 产品ID
+     * @return 结果
+     */
+    Result deleteById(Integer id);
+
+    /**
+     * 批量删除产品
+     * @param ids 产品ID数组
+     * @return 结果
+     */
+    Result batchDeleteByProductId(String[] ids);
+
+    /**
+     * 更新产品信息
+     * @param product 产品实体类
+     * @return 封装结果
+     */
+    Result updateProduct(Product product);
 }

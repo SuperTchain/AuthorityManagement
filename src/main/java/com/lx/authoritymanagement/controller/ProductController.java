@@ -2,8 +2,8 @@ package com.lx.authoritymanagement.controller;
 
 import com.lx.authoritymanagement.annotations.RecordOperation;
 import com.lx.authoritymanagement.pojo.Product;
+import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.ProductService;
-import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
@@ -58,6 +58,22 @@ public class ProductController {
     }
 
     /**
+     * 跳转到查看产品界面
+     * @return 界面
+     */
+    @GetMapping("/toViewProduct")
+    @ApiOperation(value = "跳转到查看产品界面")
+    public String toViewProduct(){
+        return "product/viewProduct";
+    }
+
+    @GetMapping("/toEditProduct")
+    @ApiOperation(value = "跳转到编辑界面")
+    public String toEditProduct(){
+        return "product/editProduct";
+    }
+
+    /**
      * 查询所有产品信息
      *
      * @param page  页数
@@ -99,7 +115,7 @@ public class ProductController {
             @ApiImplicitParam(name = "limit", value = "每页页数", dataType = "Integer")}
     )
     @RecordOperation(name = "根据传入条件查询产品信息")
-    public Result serachUser(Integer productId, String productName, String timerange, Integer page, Integer limit) {
+    public Result serachProduct(Integer productId, String productName, String timerange, Integer page, Integer limit) {
         Result result = productService.search(productId, productName, timerange, page, limit);
         logger.info("产品条件搜索查询成功");
         return result;
@@ -119,6 +135,74 @@ public class ProductController {
         Result result = productService.addProduct(product);
         logger.info("成功添加产品");
         result.setStatus(200);
+        return result;
+    }
+
+    /**
+     * 根据Id查询产品信息
+     *
+     * @param id id
+     * @return 结果
+     */
+    @PostMapping("/findProductById")
+    @ResponseBody
+    @ApiOperation(value = "根据Id查询产品")
+    @RecordOperation(name = "根据Id查询产品信息")
+    public Result findProductById(@ApiParam(name = "id", value = "产品Id") Integer id) {
+        Result result = productService.findProductById(id);
+        logger.info("根据产品ID查询成功");
+        return result;
+    }
+
+    /**
+     * 删除产品
+     *
+     * @param id 产品id
+     * @return 封装结果集
+     */
+    @PostMapping("/deleteById")
+    @ResponseBody
+    @ApiOperation(value = "删除产品")
+    @RecordOperation(name="删除产品")
+    public Result deleteById(@ApiParam(name = "id", value = "产品Id") Integer id) {
+        Result result = productService.deleteById(id);
+        logger.info("成功删除用户");
+        return result;
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param ids 删除id数组
+     * @return 封装结果集
+     */
+    @PostMapping("/batchDelete")
+    @ResponseBody
+    @ApiOperation(value = "批量删除产品")
+    @RecordOperation(name = "批量删除产品")
+    public Result batchDeleteByProductId(@ApiParam(name = "ids", value = "产品名数组") String[] ids) {
+        System.out.println(ids);
+        Result result = productService.batchDeleteByProductId(ids);
+        logger.info("成功批量删除产品");
+        result.setStatus(200);
+        result.setItem("批量删除成功");
+        return result;
+    }
+
+
+    /**
+     * 更新用户信息
+     *
+     * @param product 用户信息
+     * @return 封装结果
+     */
+    @PostMapping("/updateProduct")
+    @ResponseBody
+    @ApiOperation(value = "更新产品信息")
+    @RecordOperation(name = "更新产品信息")
+    public Result updateProduct(@ApiParam(name = "product", value = "产品实体类") Product product) {
+        Result result = productService.updateProduct(product);
+        logger.info("更新产品成功" + result);
         return result;
     }
 }

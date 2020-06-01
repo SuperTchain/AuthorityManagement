@@ -66,4 +66,24 @@
         insert into product(productName, productPrice, productionAddress, productDate, productNumber, productDesc, productStatus)
          values(#{productName},#{productPrice},#{productionAddress},#{productDate},#{productNumber},#{productDesc},#{productStatus})
     </insert>
+    <!--根据产品Id查询该产品信息-->
+    <select id="findProductById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from product where id=#{id}
+    </select>
+    <!--根据产品id进行批量删除-->
+    <delete id="batchDeleteByProductId">
+        delete from product where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!--根据用户id进行删除-->
+    <delete id="deleteById">
+        delete from product where id=#{id}
+    </delete>
+    <!--更新产品信息-->
+    <update id="updateProduct" parameterType="com.lx.authoritymanagement.pojo.Product">
+        update product set productName=#{productName},productPrice=#{productPrice},productionAddress=#{productionAddress},productDate=#{productDate},productNumber=#{productNumber},
+        productDesc=#{productDesc},productStatus=#{productStatus} where id=#{id}
+    </update>
 </mapper>

@@ -8,9 +8,15 @@ layui.use(['form', 'layedit', 'laydate'], function () {
 
     //自定义验证规则
     form.verify({
-        title: function (value) {
-            if (value.length < 5) {
-                return '最小长度为5哦';
+        title: function(value, item){ //value：表单的值、item：表单的DOM对象
+            if (value.length < 1) {
+                return '不能为空';
+            }
+            if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                return '不能有特殊字符';
+            }
+            if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                return '首尾不能出现下划线\'_\'';
             }
         }
         , pass: [
