@@ -1,6 +1,7 @@
 package com.lx.authoritymanagement.controller;
 
 import cn.dsna.util.images.ValidateCode;
+import com.lx.authoritymanagement.annotations.RecordOperation;
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
@@ -44,8 +45,8 @@ public class LoginController {
     private static Logger logger = Logger.getLogger(LoginController.class);
 
     /**
-     * 登录跳转到主界面
-     * @return 跳转到主界面
+     * 登录校验
+     * @return 登录校验
      */
     @PostMapping(value = "/login")
     @ResponseBody
@@ -54,7 +55,6 @@ public class LoginController {
             @ApiImplicitParam(name = "account",value = "账户名",dataType = "String"),
             @ApiImplicitParam(name = "password",value = "密码",dataType = "String"),
             @ApiImplicitParam(name = "code",value = "验证码",dataType = "String"),
-//            @ApiImplicitParam(name = "request",value = "请求",dataType = "HttpServletRequest"),
     })
     public Result login(String account,String password,String code,HttpServletRequest request){
         Result result = userService.findUserByName(account, password, code, request);
@@ -67,6 +67,7 @@ public class LoginController {
      */
     @GetMapping(value = "/logout")
     @ApiOperation("登出")
+    @RecordOperation(name = "登出操作",url = "/logout")
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("user");
@@ -90,7 +91,8 @@ public class LoginController {
      * @return 主界面
      */
     @GetMapping("/main")
-    @ApiOperation("跳转到主界面")
+    @ApiOperation("登录成功跳转到主界面")
+    @RecordOperation(name = "登录",url = "/login")
     public String main(HttpServletRequest request){
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
@@ -109,7 +111,7 @@ public class LoginController {
      * @param response 响应
      * @param request 请求
      */
-    @RequestMapping("/getCode")
+    @GetMapping("/getCode")
     @ApiOperation("获取验证码")
     public void getCode(HttpServletResponse response, HttpServletRequest request){
         //验证码验证

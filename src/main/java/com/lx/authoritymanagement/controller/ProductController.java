@@ -87,7 +87,7 @@ public class ProductController {
             @ApiImplicitParam(name = "page", value = "页数"),
             @ApiImplicitParam(name = "limit", value = "每页页数")
     })
-    @RecordOperation(name = "查询所有产品信息")
+    @RecordOperation(name = "查询所有产品信息",url = "/product/findAllProduct")
     public Result findAllProduct(Integer page, Integer limit) {
         Result result = productService.findAllProduct(page, limit);
         logger.info("查询产品列表成功");
@@ -114,7 +114,7 @@ public class ProductController {
             @ApiImplicitParam(name = "page", value = "页数", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页页数", dataType = "Integer")}
     )
-    @RecordOperation(name = "根据传入条件查询产品信息")
+    @RecordOperation(name = "根据传入条件查询产品信息",url = "/product/search")
     public Result serachProduct(Integer productId, String productName, String timerange, Integer page, Integer limit) {
         Result result = productService.search(productId, productName, timerange, page, limit);
         logger.info("产品条件搜索查询成功");
@@ -130,7 +130,7 @@ public class ProductController {
     @PostMapping("/addProduct")
     @ResponseBody
     @ApiOperation(value = "添加产品")
-    @RecordOperation(name = "添加产品")
+    @RecordOperation(name = "添加产品",url = "/product/addProduct")
     public Result addProduct(@ApiParam(name = "product", value = "产品实体类") Product product) {
         Result result = productService.addProduct(product);
         logger.info("成功添加产品");
@@ -147,7 +147,7 @@ public class ProductController {
     @PostMapping("/findProductById")
     @ResponseBody
     @ApiOperation(value = "根据Id查询产品")
-    @RecordOperation(name = "根据Id查询产品信息")
+    @RecordOperation(name = "根据Id查询产品信息",url = "/product/findProductById")
     public Result findProductById(@ApiParam(name = "id", value = "产品Id") Integer id) {
         Result result = productService.findProductById(id);
         logger.info("根据产品ID查询成功");
@@ -163,7 +163,7 @@ public class ProductController {
     @PostMapping("/deleteById")
     @ResponseBody
     @ApiOperation(value = "删除产品")
-    @RecordOperation(name="删除产品")
+    @RecordOperation(name="删除产品",url = "/product/deleteById")
     public Result deleteById(@ApiParam(name = "id", value = "产品Id") Integer id) {
         Result result = productService.deleteById(id);
         logger.info("成功删除用户");
@@ -179,7 +179,7 @@ public class ProductController {
     @PostMapping("/batchDelete")
     @ResponseBody
     @ApiOperation(value = "批量删除产品")
-    @RecordOperation(name = "批量删除产品")
+    @RecordOperation(name = "批量删除产品",url = "/product/batchDelete")
     public Result batchDeleteByProductId(@ApiParam(name = "ids", value = "产品名数组") String[] ids) {
         System.out.println(ids);
         Result result = productService.batchDeleteByProductId(ids);
@@ -199,7 +199,7 @@ public class ProductController {
     @PostMapping("/updateProduct")
     @ResponseBody
     @ApiOperation(value = "更新产品信息")
-    @RecordOperation(name = "更新产品信息")
+    @RecordOperation(name = "更新产品信息",url = "/product/updateProduct")
     public Result updateProduct(@ApiParam(name = "product", value = "产品实体类") Product product) {
         Result result = productService.updateProduct(product);
         logger.info("更新产品成功" + result);

@@ -15,4 +15,6 @@ import java.lang.annotation.*;
 public @interface RecordOperation {
     //详细操作
     String name() default "";
+    //操作地址
+    String url() default "";
 }

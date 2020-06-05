@@ -232,8 +232,10 @@ public class UserServiceImpl implements UserService {
             } else {
                 //将用户信息存放到session中
                 session.setAttribute("user", user);
+                session.setAttribute("userName", user.getUserName());
                 result.setStatus(200);
                 result.setItem("success");
+                logger.info("登录成功");
             }
         }
         return result;

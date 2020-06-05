@@ -49,7 +49,7 @@ public class UserController {
             @ApiImplicitParam(name = "page",value = "页数"),
             @ApiImplicitParam(name = "limit",value = "每页页数")
     })
-    @RecordOperation(name = "查询所有用户")
+    @RecordOperation(name = "查询所有用户",url = "/user/findAllUser")
     public Result findAllUser( Integer page,  Integer limit) {
         Result result = userService.findAllUserByPage(page, limit);
         logger.info("查询用户列表成功");
@@ -121,7 +121,7 @@ public class UserController {
             @ApiImplicitParam(name = "page", value = "页数", dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "每页页数", dataType = "Integer")}
     )
-    @RecordOperation(name = "根据传入的条件进行用户搜索")
+    @RecordOperation(name = "根据传入条件进行用户搜索",url = "/user/search")
     public Result serachUser(Integer userid, String username, String account, Integer page, Integer limit) {
         Result result = userService.search(userid, username, account, page, limit);
         logger.info("用户条件搜索查询成功");
@@ -138,7 +138,7 @@ public class UserController {
     @PostMapping("/addUser")
     @ResponseBody
     @ApiOperation(value = "添加用户")
-    @RecordOperation(name = "添加用户")
+    @RecordOperation(name = "添加用户",url = "/user/addUser")
     public Result addUser(@ApiParam(name = "ueer", value = "用户实体类") User user) {
         Result result = userService.addUser(user);
         logger.info("成功添加用户");
@@ -155,7 +155,7 @@ public class UserController {
     @PostMapping("/batchDelete")
     @ResponseBody
     @ApiOperation(value = "批量删除用户")
-    @RecordOperation(name = "批量删除用户")
+    @RecordOperation(name = "批量删除用户",url = "/user/batchDelete")
     public Result batchDeleteByUserId(@ApiParam(name = "ids", value = "用户名数组") String[] ids) {
         Result result = userService.batchDeleteByUserId(ids);
         logger.info("成功批量删除用户");
@@ -173,7 +173,7 @@ public class UserController {
     @PostMapping("/deleteById")
     @ResponseBody
     @ApiOperation(value = "删除用户")
-    @RecordOperation(name="删除用户")
+    @RecordOperation(name="删除用户",url = "/user/deleteById")
     public Result deleteById(@ApiParam(name = "id", value = "用户Id") Integer id) {
         Result result = userService.deleteById(id);
         logger.info("成功删除用户");
@@ -189,7 +189,7 @@ public class UserController {
     @PostMapping("/findUserById")
     @ResponseBody
     @ApiOperation(value = "根据Id查询用户")
-    @RecordOperation(name = "根据Id查询用户信息")
+    @RecordOperation(name = "根据Id查询用户信息",url = "/user/findUserById")
     public Result findUserById(@ApiParam(name = "id", value = "用户Id") Integer id) {
         Result result = userService.findUserById(id);
         logger.info("根据用户ID查询成功");
@@ -205,7 +205,7 @@ public class UserController {
     @PostMapping("/updateUser")
     @ResponseBody
     @ApiOperation(value = "更新用户信息")
-    @RecordOperation(name = "更新用户信息")
+    @RecordOperation(name = "更新用户信息",url = "/user/updateUser")
     public Result updateUser(@ApiParam(name = "user", value = "用户实体类") User user) {
         Result result = userService.updateUser(user);
         logger.info("更新用户成功" + result);
