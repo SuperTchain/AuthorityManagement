@@ -2,7 +2,8 @@ package com.lx.authoritymanagement.service;
 
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.utils.Result;
-import org.apache.ibatis.annotations.Param;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 public interface UserService {
@@ -80,4 +81,14 @@ public interface UserService {
      * @return 封装结果
      */
     Result updateUser(User user);
+
+    /**
+     *根据账户名查询信息
+     * @param account 账户名
+     * @param password 密码
+     * @param code 验证码
+     * @param request 请求
+     * @return 查询结果
+     */
+    Result findUserByName(String account, String password, String code, HttpServletRequest request);
 }

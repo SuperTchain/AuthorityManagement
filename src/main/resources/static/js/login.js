@@ -1,62 +1,88 @@
-layui.use(['form', 'layedit', 'laydate'], function(){
+layui.use(['form', 'layedit', 'jquery', 'layer'], function () {
     var form = layui.form
-        ,layer = layui.layer
-        ,layedit = layui.layedit
-        ,laydate = layui.laydate;
+        , layedit = layui.layedit
+        , $ = layui.$//jquery
+        , layer = layui.layer
 
-    //日期
-    /* laydate.render({
-       elem: '#date'
-     });
-     laydate.render({
-       elem: '#date1'
-     });
-
-     //创建一个编辑器
-     var editIndex = layedit.build('LAY_demo_editor');
-
-     //自定义验证规则
-     form.verify({
-       title: function(value){
-         if(value.length < 5){
-           return '标题至少得5个字符啊';
-         }
-       }
-       ,pass: [
-         /^[\S]{6,12}$/
-         ,'密码必须6到12位，且不能出现空格'
-       ]
-       ,content: function(value){
-         layedit.sync(editIndex);
-       }
-     });
-
-     //监听指定开关
-     form.on('switch(switchTest)', function(data){
-       layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-         offset: '6px'
-       });
-       layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-     });*/
-
-    //监听提交
-    form.on('submit(demo1)', function(data){
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
-        return false;
+    //自定义验证规则
+    form.verify({
+        title: function (value, item) { //value：表单的值、item：表单的DOM对象
+            if (value.length < 1) {
+                return '不能为空';
+            }
+            if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                return '不能有特殊字符';
+            }
+            if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                return '首尾不能出现下划线\'_\'';
+            }
+        }
+        , pass: [
+            // /^[\S]{6,12}$/
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+            // ,'密码必须8到12位，且不能出现空格'
+            , '至少8个字符，至少1个大写字母，1个小写字母和1个数字'
+        ]
+        , account: [
+            /^[a-zA-Z0-9_-]{4,16}$/
+            , '至少4位，至多16位,不包含特殊字符哦'
+        ]
+        , age: [
+            /^(?:[1-9]?\d|100)$/
+            , '只能在1-99岁之间哦'
+        ]
+        , content: function (value) {
+            layedit.sync(editIndex);
+        }
     });
 
-    //表单初始赋值
-    /* form.val('example', {
-       "username": "贤心" // "name": "value"
-       ,"password": "123456"
-       ,"interest": 1
-       ,"like[write]": true //复选框选中状态
-       ,"close": true //开关状态
-       ,"sex": "女"
-       ,"desc": "我爱 layui"
-     })*/
+    // //监听指定开关
+    // form.on('switch(switchTest)', function(data){
+    //   layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+    //     offset: '6px'
+    //   });
+    //   layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+    // });
+
+    //
+    // //监听提交
+    // form.on('submit(login)', function(data){
+    //     layer.alert(JSON.stringify(data.field), {
+    //         title: '最终的提交信息'
+    //     })
+    //     return false;
+    // });
+
+    //登录操作(layui的表单提交)
+    form.on("submit(login)", function (data) {
+        //data里面有form对象也有全部的表单字段
+        $.ajax({
+            type: "post",
+            url: "/login",//自己登录校验的接口
+            data: data.field,//将整个表单字段传到后台接口
+            success: function (res) {
+                if (res.status == 200) {
+                    layer.alert("登录成功");
+                    //跳转到主页面
+                    window.location.href = "/main";
+                } else {
+                    //验证码错误
+                    //账户或密码错误
+                    layer.alert(res.item);
+                    //重新刷新验证码
+                    window.changeCode();
+                }
+            }
+        })
+        //禁止页面跳转
+        return false;
+    })
 
 
+    //重新生成验证码
+    //layui的js里面自定义方法要加window.方法名
+    window.changeCode = function () {
+        //获取img验证码标签
+        $("#codeImg").attr("src", '/getCode?random=' + Math.random()).fadeIn();
+    }
 });

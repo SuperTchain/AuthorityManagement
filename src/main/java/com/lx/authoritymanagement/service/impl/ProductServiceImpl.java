@@ -1,10 +1,12 @@
 package com.lx.authoritymanagement.service.impl;
 
+import com.lx.authoritymanagement.controller.LoginController;
 import com.lx.authoritymanagement.dao.ProductDao;
 import com.lx.authoritymanagement.pojo.Product;
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.ProductService;
 import com.lx.authoritymanagement.utils.Result;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -20,6 +22,12 @@ import java.util.List;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
+    /**
+     * 开启日志
+     */
+    private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
+
+
     /**
      * 引入dao
      */
@@ -61,8 +69,9 @@ public class ProductServiceImpl implements ProductService {
         String startTime=null;
         //结束时间
         String endTime=null;
+        String isNull="";
         //判断时间是否为空字符串
-        if(!timerange.equals("")){
+        if(!timerange.equals(isNull)){
             //根据开始时间和结束时间查询
             //使用split切割，返回数组 数组第一个元素：起始时间 数组第二个元素：结束时间
             String [] timeArray = timerange.split("~");
@@ -95,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
             result.setStatus(200);
             result.setItem("添加成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("错误",e);
             result.setStatus(500);
             result.setItem("添加失败");
             //手动回滚事务
@@ -131,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
             result.setStatus(200);
             result.setItem("删除成功");
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("错误",e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             result.setStatus(500);
             result.setItem("删除失败");
@@ -152,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
             result.setStatus(200);
             result.setItem("删除成功");
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("错误",e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             result.setStatus(500);
             result.setItem("删除失败");

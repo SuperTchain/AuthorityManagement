@@ -89,4 +89,9 @@
         update user set userName=#{userName},nickName=#{nickName},account=#{account},password=#{password},gender=#{gender},
         age=#{age},email=#{email},roleId=#{roleId} where id=#{id}
     </update>
+    <!--根据账户名查询用户-->
+    <select id="findUserByName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from user where account=#{account}
+  </select>
 </mapper>

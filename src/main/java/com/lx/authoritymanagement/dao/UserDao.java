@@ -1,8 +1,6 @@
 package com.lx.authoritymanagement.dao;
 
 import com.lx.authoritymanagement.pojo.User;
-import com.lx.authoritymanagement.utils.Result;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -71,5 +69,17 @@ public interface UserDao {
      */
     User findUserById(Integer id);
 
+    /**
+     * 更新用户信息
+     * @param user 用户实体
+     * @return 结果
+     */
     Integer updateUser(User user);
+
+    /**
+     * 根据账户名查询信息
+     * @param account 账户名
+     * @return 用户信息
+     */
+    User findUserByName(String account);
 }

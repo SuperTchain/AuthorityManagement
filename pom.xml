@@ -142,10 +142,16 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger-version}</version>
         </dependency>
-        <!--sop-->
+        <!--aop-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--导入自己做的验证码的依赖-->
+        <dependency>
+            <groupId>cn.dsna.util.images</groupId>
+            <artifactId>ValidateCode</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
