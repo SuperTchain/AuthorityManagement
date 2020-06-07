@@ -67,7 +67,7 @@ public class LoginController {
      */
     @GetMapping(value = "/logout")
     @ApiOperation("登出")
-    @RecordOperation(name = "登出操作",url = "/logout")
+    @RecordOperation(name = "登出",url = "/logout")
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession();
         session.removeAttribute("user");
@@ -90,19 +90,26 @@ public class LoginController {
      * @param request 请求
      * @return 主界面
      */
-    @GetMapping("/main")
+    @PostMapping("/main")
     @ApiOperation("登录成功跳转到主界面")
     @RecordOperation(name = "登录",url = "/login")
     public String main(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        if(user==null){
-            //没有登录
-            return "login";
-        }else{
-            //正常登录返回首页
-            return "main";
-        }
+//        HttpSession session = request.getSession();
+//        User user = (User)session.getAttribute("user");
+//        if(user==null){
+//            //没有登录
+//            return "login";
+//        }else{
+//            //正常登录返回首页
+//            return "main";
+//        }
+        return "main";
+    }
+
+    @GetMapping("/toMain")
+    @RecordOperation(name = "跳转主页",url = "/toMain")
+    public String toMain(){
+        return "main";
     }
 
 

@@ -102,8 +102,8 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element', 'laydate'], function 
             , layEvent = obj.event; //获得 lay-event 对应的值
         var id = data.id;
         if (layEvent === 'detail') {
-            productid = {
-                productid: data.id,
+            logId = {
+                logId: data.id,
             };
             layer.open({
                 //0（信息框，默认）1（页面层）2（iframe层)

@@ -210,6 +210,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Result findUserByName(String account, String password, String code, HttpServletRequest request) {
+        logger.info(account+password+code);
         Result result = new Result();
         HttpSession session = request.getSession();
         //将验证码从session中获取出来

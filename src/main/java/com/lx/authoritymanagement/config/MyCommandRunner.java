@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
  * @Author ASUS
  * @Date 2020/6/2 0:39
  * @Version 1.0
+ * 程序运行自动打开谷歌浏览器
  */
 @Component
 public class MyCommandRunner implements CommandLineRunner {

@@ -166,7 +166,7 @@ public class ProductController {
     @RecordOperation(name="删除产品",url = "/product/deleteById")
     public Result deleteById(@ApiParam(name = "id", value = "产品Id") Integer id) {
         Result result = productService.deleteById(id);
-        logger.info("成功删除用户");
+        logger.info("成功删除产品");
         return result;
     }
 

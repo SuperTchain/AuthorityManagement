@@ -31,4 +31,28 @@ public interface LogService {
      * @return 结果
      */
     Result batchDeleteByLogId(String[] ids);
+
+    /**
+     * 根据日志ID查询日志信息
+     * @param id id
+     * @return 查询信息
+     */
+    Result findLogById(Integer id);
+
+    /**
+     * 根据日志id删除日志
+     * @param id 日志id
+     * @return 封装结果
+     */
+    Result deleteById(Integer id);
+
+    /**
+     * 条件查询日志
+     * @param userName 用户姓名
+     * @param timerange 时间范围
+     * @param page 页数
+     * @param limit 每页条数
+     * @return 封装结果
+     */
+    Result search(String userName, String timerange, Integer page, Integer limit);
 }

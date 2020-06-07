@@ -64,7 +64,7 @@ layui.use(['form', 'layedit', 'jquery', 'layer'], function () {
                 if (res.status == 200) {
                     layer.alert("登录成功");
                     //跳转到主页面
-                    window.location.href = "/main";
+                    // window.location.href = "/main";
                 } else {
                     //验证码错误
                     //账户或密码错误
@@ -75,7 +75,7 @@ layui.use(['form', 'layedit', 'jquery', 'layer'], function () {
             }
         })
         //禁止页面跳转
-        return false;
+        // return false;
     })
 
 

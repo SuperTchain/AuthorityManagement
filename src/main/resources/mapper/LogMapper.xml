@@ -24,8 +24,50 @@
         select <include refid="Base_Column_List"></include> from log limit #{start},#{limit}
     </select>
 
-    <!--查询用户总数-->
+    <!--查询日志总数-->
     <select id="selectCount" resultType="java.lang.Integer">
     select count(*) from log;
   </select>
+    <!--根据日志id进行批量删除-->
+    <delete id="batchDeleteByLogId">
+        delete from log where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!--根据搜索条件查询日志-->
+    <select id="search" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"></include>
+        from log
+        <where>
+            <if test="userName!=''">
+                and userName like '%${userName}%'
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and operationTime between #{startTime} and #{endTime}
+            </if>
+        </where>
+        limit #{start},#{limit}
+
+    </select>
+    <!--根据搜索条件查询日志数量-->
+    <select id="searchCountLike"  resultType="java.lang.Integer">
+        select count(*)  from log
+        <where>
+            <if test="userName!=''">
+                and userName like '%${userName}%'
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and operationTime between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+    <!--根据产品Id查询该日志信息-->
+    <select id="findLogById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from log where id=#{id}
+    </select>
+    <!--根据日志id进行删除-->
+    <delete id="deleteById">
+        delete from log where id=#{id}
+    </delete>
 </mapper>

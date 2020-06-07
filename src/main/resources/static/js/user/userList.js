@@ -5,6 +5,7 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
         , $ = layui.$//jquery模块
         , e = layui.element //元素操作
         , form = layui.form //表单模块
+        ,laypage=layui.laypage//分页
 
     //执行一个 table 实例
     var user_table = table.render({
@@ -190,5 +191,6 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
         //         //刷新父窗口
         window.parent.location.reload();
     });
+
 })
 
