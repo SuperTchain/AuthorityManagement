@@ -2,12 +2,14 @@ package com.lx.authoritymanagement.service.impl;
 
 import com.lx.authoritymanagement.controller.LoginController;
 import com.lx.authoritymanagement.dao.UserDao;
+import com.lx.authoritymanagement.exception.MyUsernameNotFoundException;
 import com.lx.authoritymanagement.pojo.Role;
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -277,6 +279,8 @@ public class UserServiceImpl implements UserService {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             request.getSession().setAttribute("user", userByName);
             request.getSession().setAttribute("userName", userByName.getUserName());
+        }else if (userByName==null){
+            throw new MyUsernameNotFoundException("输入的账号有误");
         }
         return userByName;
     }

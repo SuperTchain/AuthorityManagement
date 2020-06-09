@@ -1,4 +1,4 @@
-package com.lx.authoritymanagement.utils;
+package com.lx.authoritymanagement.exception;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,5 +26,4 @@ public class HandleControllerException {
         mv.setViewName("error/500");
         return mv;
     }
-
 }

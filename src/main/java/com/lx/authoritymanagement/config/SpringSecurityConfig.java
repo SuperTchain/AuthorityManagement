@@ -1,14 +1,25 @@
 package com.lx.authoritymanagement.config;
 
+import com.lx.authoritymanagement.handler.MyAuthenticationFailHandler;
 import com.lx.authoritymanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @ClassName SpringSecurityConfig
@@ -21,13 +32,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
+    @Autowired
+    private MyAuthenticationFailHandler authenticationFailHandler;
     /**
      * 配置userDetails的数据源，密码加密格式
      *
@@ -76,6 +89,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                成功请求 post请求
                 .successForwardUrl("/main")
 //                .defaultSuccessUrl("/main")
+//                .failureHandler(authenticationFailHandler)
+//                .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
                 .logout()

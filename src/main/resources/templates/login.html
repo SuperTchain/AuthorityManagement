@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/layui/css/layui.css">
@@ -18,6 +19,8 @@
             <div class="layui-input-block">
                 <input type="text" name="account" lay-verify="title" placeholder="请输入用户名" autocomplete="off"
                        class="layui-input">
+                <!-- 获取异常session-->
+                <span th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message} "  style="color: red"></span>
             </div>
         </div>
         <div class="layui-form-item">
@@ -26,7 +29,6 @@
                 <input type="password" name="password" lay-verify="title" placeholder="请输入密码" autocomplete="off"
                        class="layui-input">
             </div>
-            <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
         </div>
 <!--        <div class="layui-form-item">-->
 <!--            <label class="layui-form-label">验证码</label>-->
