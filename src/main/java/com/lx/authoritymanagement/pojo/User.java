@@ -4,10 +4,16 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,7 +25,7 @@ import java.util.List;
  */
 @TableName("user")
 @ApiModel(value="User对象", description="用户表")
-public class User implements Serializable {
+public class User implements Serializable,UserDetails {
 
    private static final long serialVersionUID = 1L;
 
@@ -55,9 +61,8 @@ public class User implements Serializable {
    @TableField("email")
    private String email;
 
-   @ApiModelProperty(value = "角色id",example = "1")
-   @TableField("roleId")
-   private Integer roleId;
+   @ApiModelProperty(value = "角色",example = "Role实体")
+   private  List<Role> roles = new ArrayList<>();
 
    @Override
    public String toString() {
@@ -70,8 +75,16 @@ public class User implements Serializable {
               ", gender=" + gender +
               ", age=" + age +
               ", email='" + email + '\'' +
-              ", roleId=" + roleId +
+              ", roles=" + roles +
               '}';
+   }
+
+   public List<Role> getRoles() {
+      return roles;
+   }
+
+   public void setRoles(List<Role> roles) {
+      this.roles = roles;
    }
 
    public static long getSerialVersionUID() {
@@ -110,8 +123,43 @@ public class User implements Serializable {
       this.account = account;
    }
 
+
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+      for (Role role : roles) {
+         authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+      }
+      return authorities;
+   }
+   @Override
    public String getPassword() {
       return password;
+   }
+
+   @Override
+   public String getUsername() {
+      return userName;
+   }
+
+   @Override
+   public boolean isAccountNonExpired() {
+      return true;
+   }
+
+   @Override
+   public boolean isAccountNonLocked() {
+      return true;
+   }
+
+   @Override
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
+
+   @Override
+   public boolean isEnabled() {
+      return true;
    }
 
    public void setPassword(String password) {
@@ -142,11 +190,5 @@ public class User implements Serializable {
       this.email = email;
    }
 
-   public Integer getRoleId() {
-      return roleId;
-   }
 
-   public void setRoleId(Integer roleId) {
-      this.roleId = roleId;
-   }
 }

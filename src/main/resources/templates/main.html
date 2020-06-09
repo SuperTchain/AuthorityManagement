@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport"
@@ -32,6 +32,7 @@
                 <a href="javascript:;">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
 <!--                    <span th:text="${session.user.userName}">用户名</span>-->
+                    <span sec:authentication="principal.username"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/user/toViewUser" class="basicElement">基本资料</a></dd>
@@ -47,7 +48,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item">
-                    <a href="/toMain" class="layui-icon layui-icon-home">主界面</a>
+                    <a href="/toMain" class="layui-icon layui-icon-home" sec:authorize="hasRole('ROLE_SALES')">主界面</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="layui-icon layui-icon-user" href="javascript:;">用户管理</a>

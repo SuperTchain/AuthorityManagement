@@ -44,22 +44,25 @@ public class LoginController {
      */
     private static Logger logger = Logger.getLogger(LoginController.class);
 
-    /**
-     * 登录校验
-     * @return 登录校验
-     */
-    @PostMapping(value = "/login")
-    @ResponseBody
-    @ApiOperation("登录校验")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "account",value = "账户名",dataType = "String"),
-            @ApiImplicitParam(name = "password",value = "密码",dataType = "String"),
-            @ApiImplicitParam(name = "code",value = "验证码",dataType = "String"),
-    })
-    public Result login(String account,String password,String code,HttpServletRequest request){
-        Result result = userService.findUserByName(account, password, code, request);
-        return result;
-    }
+//    /**
+//     * 登录校验
+//     * @return 登录校验
+//     */
+//    @PostMapping(value = "/login")
+//    @ResponseBody
+//    @ApiOperation("登录校验")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "username",value = "账户名",dataType = "String"),
+//            @ApiImplicitParam(name = "password",value = "密码",dataType = "String"),
+//            @ApiImplicitParam(name = "code",value = "验证码",dataType = "String"),
+//    })
+//    public Result login(String username,String password,String code,HttpServletRequest request){
+//        Result result = userService.findUserByName(username, password, code, request);
+//        return result;
+//    }
+
+
+
 
     /**
      * 测试springboot整合thymeleaf
@@ -86,27 +89,41 @@ public class LoginController {
     }
 
     /**
-     * 返回主页面(main.html)
+     * 登录成功后跳转到主页面(main.html)
      * @param request 请求
      * @return 主界面
      */
     @PostMapping("/main")
     @ApiOperation("登录成功跳转到主界面")
-    @RecordOperation(name = "登录",url = "/login")
+    @RecordOperation(name = "登录成功",url = "/login")
     public String main(HttpServletRequest request){
-//        HttpSession session = request.getSession();
-//        User user = (User)session.getAttribute("user");
-//        if(user==null){
-//            //没有登录
-//            return "login";
-//        }else{
-//            //正常登录返回首页
-//            return "main";
-//        }
-        return "main";
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        if(user==null){
+            //没有登录
+            return "login";
+        }else{
+            //正常登录返回首页
+            return "main";
+        }
     }
 
+    /**
+     * 跳转到登录界面
+     * @return 登录界面
+     */
+    @GetMapping("/toLogin")
+    @ApiOperation("跳转到登录界面")
+    public String toLogin(){
+        return "login";
+    }
+
+    /**
+     * 登录后主界面的跳转
+     * @return 主界面
+     */
     @GetMapping("/toMain")
+    @ApiOperation("登录成功后主界面跳转" )
     @RecordOperation(name = "跳转主页",url = "/toMain")
     public String toMain(){
         return "main";

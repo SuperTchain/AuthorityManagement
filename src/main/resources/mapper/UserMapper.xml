@@ -12,12 +12,13 @@
         <result column="gender" property="gender" />
         <result column="age" property="age" />
         <result column="email" property="email" />
-        <result column="roleId" property="roleId" />
+        <association property="roles" select="com.lx.authoritymanagement.dao.RoleDao.findRoleById" column="id">
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userName, nickName, account, password, gender, age, email, roleId
+        id, userName, nickName, account, password, gender, age, email
     </sql>
 
     <!--分页查询所有用户信息-->
@@ -65,8 +66,8 @@
     </select>
     <!--添加用户-->
     <insert id="addUser" parameterType="com.lx.authoritymanagement.pojo.User">
-        insert into user(userName, nickName, account, password, gender, age, email, roleId)
-         values(#{userName},#{nickName},#{account},#{password},#{gender},#{age},#{email},#{roleId})
+        insert into user(userName, nickName, account, password, gender, age, email)
+         values(#{userName},#{nickName},#{account},#{password},#{gender},#{age},#{email})
     </insert>
 
     <!--根据用户id进行批量删除-->
@@ -87,7 +88,7 @@
     <!--更新用户信息-->
     <update id="updateUser" parameterType="com.lx.authoritymanagement.pojo.User">
         update user set userName=#{userName},nickName=#{nickName},account=#{account},password=#{password},gender=#{gender},
-        age=#{age},email=#{email},roleId=#{roleId} where id=#{id}
+        age=#{age},email=#{email} where id=#{id}
     </update>
     <!--根据账户名查询用户-->
     <select id="findUserByName" resultMap="BaseResultMap">

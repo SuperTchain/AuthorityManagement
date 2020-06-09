@@ -7,6 +7,7 @@ import com.lx.authoritymanagement.utils.Result;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,6 +75,7 @@ public class UserController {
      */
     @GetMapping("/toAddUser")
     @ApiOperation(value = "跳转到添加界面")
+    @Secured("ROLE_ADMIN")
     public String toaddUser() {
         return "user/addUser";
     }
@@ -139,6 +141,7 @@ public class UserController {
     @ResponseBody
     @ApiOperation(value = "添加用户")
     @RecordOperation(name = "添加用户",url = "/user/addUser")
+    @Secured({"ROLE_SALES","ROLE_ADMIN","ROLE_MANAGE"})
     public Result addUser(@ApiParam(name = "ueer", value = "用户实体类") User user) {
         Result result = userService.addUser(user);
         logger.info("成功添加用户");

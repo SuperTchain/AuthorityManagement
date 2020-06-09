@@ -54,29 +54,29 @@ layui.use(['form', 'layedit', 'jquery', 'layer'], function () {
     // });
 
     //登录操作(layui的表单提交)
-    form.on("submit(login)", function (data) {
-        //data里面有form对象也有全部的表单字段
-        $.ajax({
-            type: "post",
-            url: "/login",//自己登录校验的接口
-            data: data.field,//将整个表单字段传到后台接口
-            success: function (res) {
-                if (res.status == 200) {
-                    layer.alert("登录成功");
-                    //跳转到主页面
-                    // window.location.href = "/main";
-                } else {
-                    //验证码错误
-                    //账户或密码错误
-                    layer.alert(res.item);
-                    //重新刷新验证码
-                    window.changeCode();
-                }
-            }
-        })
-        //禁止页面跳转
-        // return false;
-    })
+    // form.on("submit(login)", function (data) {
+    //     //data里面有form对象也有全部的表单字段
+    //     $.ajax({
+    //         type: "post",
+    //         url: "/login",//自己登录校验的接口
+    //         data: data.field,//将整个表单字段传到后台接口
+    //         success: function (res) {
+    //             if (res.status == 200) {
+    //                 layer.alert("登录成功");
+    //                 //跳转到主页面
+    //                 // window.location.href = "/main";
+    //             } else {
+    //                 //验证码错误
+    //                 //账户或密码错误
+    //                 layer.alert(res.item);
+    //                 //重新刷新验证码
+    //                 window.changeCode();
+    //             }
+    //         }
+    //     })
+    //     // // //禁止页面跳转
+    //     // return false;
+    // })
 
 
     //重新生成验证码

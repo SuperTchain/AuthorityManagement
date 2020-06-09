@@ -2,16 +2,25 @@ package com.lx.authoritymanagement.service.impl;
 
 import com.lx.authoritymanagement.controller.LoginController;
 import com.lx.authoritymanagement.dao.UserDao;
+import com.lx.authoritymanagement.pojo.Role;
 import com.lx.authoritymanagement.pojo.User;
 import com.lx.authoritymanagement.service.UserService;
 import com.lx.authoritymanagement.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +43,12 @@ public class UserServiceImpl implements UserService {
      * 开启日志
      */
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
+
+    /**
+     * 密码加密
+     */
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 查询所有用户信息
@@ -110,6 +125,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Result addUser(User user) {
+        //对密码进行加密处理
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        logger.info(user.getPassword());
         Result result = new Result();
         try {
             userDao.addUser(user);
@@ -192,6 +210,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Result updateUser(User user) {
+        //对密码进行加密处理
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.updateUser(user);
         Result result = new Result();
         result.setStatus(200);
@@ -202,15 +222,15 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据用户账户查询信息
      *
-     * @param account  账户名
+     * @param username  账户名
      * @param password 密码
      * @param code     验证码
      * @param request  请求
      * @return 结果
      */
     @Override
-    public Result findUserByName(String account, String password, String code, HttpServletRequest request) {
-        logger.info(account+password+code);
+    public Result findUserByName(String username, String password, String code, HttpServletRequest request) {
+        logger.info(username + password + code);
         Result result = new Result();
         HttpSession session = request.getSession();
         //将验证码从session中获取出来
@@ -223,7 +243,7 @@ public class UserServiceImpl implements UserService {
         } else {
             //再比较账户和密码
             //根据账号查询用户
-            User user = userDao.findUserByName(account);
+            User user = userDao.findUserByName(username);
             logger.info(user);
             //根据账户查不到   或者  查到的用户的密码跟输入密码加密之后的值不一致
             if (user == null || !user.getPassword().equals(password)) {
@@ -240,5 +260,24 @@ public class UserServiceImpl implements UserService {
             }
         }
         return result;
+    }
+
+    /**
+     * security实现
+     *
+     * @param s 用户名
+     * @return 封装结果
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User userByName = userDao.findUserByName(s);
+        if (userByName!=null){
+            //将用户信息存放到session中
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            request.getSession().setAttribute("user", userByName);
+            request.getSession().setAttribute("userName", userByName.getUserName());
+        }
+        return userByName;
     }
 }

@@ -30,7 +30,6 @@ layui.use(['laypage', 'layer', 'table', 'form', 'element'], function () {
                     , "gender": res.item.gender
                     , "age": res.item.age
                     , "email": res.item.email
-                    , "roleId": res.item.roleId
                 });
 
             }
