@@ -20,7 +20,7 @@
         <mysql-connector-version>5.1.47</mysql-connector-version>
         <druid-version>1.1.13</druid-version>
         <mybatis-version>2.1.2</mybatis-version>
-        <swagger-version>2.9.2</swagger-version>
+        <swagger-version>2.10.0</swagger-version>
         <mybatis-plus-generator.version>3.2.0</mybatis-plus-generator.version>
         <slf4j.version>1.7.16</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
